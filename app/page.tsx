@@ -15,6 +15,11 @@ export default async function Home() {
   // }
   const pois = await getPois()
   console.log(pois)
+  // i want to merge samplePois and pois
+  const mergedPois = samplePois.map((poi, idx) => ({
+    ...poi,
+    image: pois[idx]?.s3_url ?? ""
+  }))
   return (
     <div className="min-h-screen bg-[#FFFFFF] text-[#333333]">
       <header className="bg-[#00A79D] p-4 text-white">
@@ -35,7 +40,7 @@ export default async function Home() {
           </div>
           <div className="h-[600px] overflow-auto">
             <h2 className="text-xl font-semibold mb-4">POI List</h2>
-            <DataTable columns={columns} data={samplePois} />
+            <DataTable columns={columns} data={mergedPois} />
           </div>
         </div>
       </main>

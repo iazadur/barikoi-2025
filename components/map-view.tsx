@@ -58,7 +58,9 @@ export function MapView({ className }: MapViewProps) {
             const bbox = turf.bbox(turf.featureCollection(features));
             map.current?.fitBounds([bbox[0], bbox[1], bbox[2], bbox[3]], {
                 padding: 100,
-                maxZoom: 15
+                maxZoom: 15,
+                duration: 1000,
+                linear: true,
             })
         }
 
