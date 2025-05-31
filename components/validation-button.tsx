@@ -21,14 +21,14 @@ export function ValidationButton({
         <button
             onClick={onClick}
             className={cn(
-                "px-3 py-1 rounded-md text-white text-sm font-medium transition-colors",
+                "px-1.5 py-1 rounded-md text-white text-xs font-medium transition-colors",
                 type === "valid"
                     ? "bg-[#00A79D] hover:bg-[#00968D]"
                     : "bg-red-500 hover:bg-red-600",
                 className
             )}
         >
-            {type === "valid" ? <Check /> : <X />}
+            {type === "valid" ? <Check size={18} /> : <X size={18} />}
         </button>
     )
 } 

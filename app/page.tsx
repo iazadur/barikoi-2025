@@ -31,16 +31,18 @@ export default async function Home() {
         <div className="mb-6">
           <FileUpload
             accept=".csv,.xlsx"
-            // onFileSelect={handleFileSelect}
+          // onFileSelect={handleFileSelect}
           />
         </div>
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           <div className="h-[600px] rounded-md border">
             <MapView className="h-full" />
           </div>
-          <div className="h-[600px] overflow-auto">
+          <div className="h-[600px]">
             <h2 className="text-xl font-semibold mb-4">POI List</h2>
-            <DataTable columns={columns} data={mergedPois} />
+            <div className="overflow-auto h-[calc(100%-2rem)]">
+              <DataTable columns={columns} data={mergedPois} />
+            </div>
           </div>
         </div>
       </main>

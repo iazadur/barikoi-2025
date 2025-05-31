@@ -81,24 +81,27 @@ export const columns: ColumnDef<Poi>[] = [
         accessorKey: "status",
         header: "Status",
         cell: ({ row }) => {
-            const status = row.getValue("status") as string
+            const status = row.getValue("status")
+            let statusClass, statusText;
+
+            if (status === "pending") {
+                statusClass = "bg-yellow-100 text-yellow-800";
+                statusText = "Pending";
+            } else if (status === "valid") {
+                statusClass = "bg-green-100 text-green-800";
+                statusText = "Valid";
+            } else {
+                statusClass = "bg-red-100 text-red-800";
+                statusText = "Invalid";
+            }
+
             return (
-                <div className="capitalize">
-                    {status === "pending" ? (
-                        <span className="px-2 py-1 bg-yellow-100 text-yellow-800 rounded-full text-xs">
-                            Pending
-                        </span>
-                    ) : status === "valid" ? (
-                        <span className="px-2 py-1 bg-green-100 text-green-800 rounded-full text-xs">
-                            Valid
-                        </span>
-                    ) : (
-                        <span className="px-2 py-1 bg-red-100 text-red-800 rounded-full text-xs">
-                            Invalid
-                        </span>
-                    )}
+                <div className="capitalize text-center">
+                    <span className={`px-2 py-1 ${statusClass} rounded-full text-xs`}>
+                        {statusText}
+                    </span>
                 </div>
-            )
+            );
         },
     },
     {
@@ -113,7 +116,7 @@ export const columns: ColumnDef<Poi>[] = [
             }
 
             return (
-                <div className="flex items-center gap-2">
+                <div className="flex items-center gap-2 justify-center">
                     <AlertDialog>
                         <AlertDialogTrigger asChild>
                             <ValidationButton type="valid" />
