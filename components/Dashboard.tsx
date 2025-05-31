@@ -5,7 +5,7 @@ import { DataTable } from './data-table'
 import { MapView } from './map-view'
 import { columns, Poi } from './pois-columns'
 import { Button } from './ui/button'
-import { X, MapPin, Filter } from 'lucide-react'
+import { X, MapPin } from 'lucide-react'
 
 interface DashboardProps {
     data: Poi[]
