@@ -1,12 +1,11 @@
 // "use client"
 
 import React from "react"
-import { MapView } from "@/components/map-view"
 import { FileUpload } from "@/components/file-upload"
-import { DataTable } from "@/components/data-table"
-import { columns } from "@/components/pois-columns"
 import { samplePois } from "@/lib/data"
 import { getPois } from "@/lib/api"
+import Dashboard from "@/components/Dashboard"
+
 export default async function Home() {
   // const [file, setFile] = React.useState<File | null>(null)
 
@@ -34,17 +33,7 @@ export default async function Home() {
           // onFileSelect={handleFileSelect}
           />
         </div>
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          <div className="h-[600px] rounded-md border">
-            <MapView className="h-full" />
-          </div>
-          <div className="h-[600px]">
-            <h2 className="text-xl font-semibold mb-4">POI List</h2>
-            <div className="overflow-auto h-[calc(100%-2rem)]">
-              <DataTable columns={columns} data={mergedPois} />
-            </div>
-          </div>
-        </div>
+        <Dashboard data={mergedPois} />
       </main>
     </div>
   )

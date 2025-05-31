@@ -22,10 +22,22 @@ export function FileUpload({
         if (onFileSelect) {
             onFileSelect(file)
         }
+
     }
 
     const handleButtonClick = () => {
-        inputRef.current?.click()
+        // inputRef.current?.click()
+        fetch('/api/extract-pois', {
+            method: 'POST',
+            body: JSON.stringify({ imageUrl: "https://barikoi-harmony.s3.amazonaws.com/uploads/8e50b599-2da4-4163-bc92-bb76bf04b81a.png?AWSAccessKeyId=AKIARGU7SYH6TODET7GG&Signature=aSp7%2Fw8Xf2WHMBVYuMids3HoySY%3D&Expires=1748697483" })
+        })
+            .then(response => response.json())
+            .then(data => {
+                console.log(data)
+            })
+            .catch(error => {
+                console.error('Error:', error)
+            })
     }
 
     return (
