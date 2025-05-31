@@ -1,19 +1,8 @@
 "use client"
 
+import * as React from "react"
 import { ColumnDef } from "@tanstack/react-table"
 import Image from "next/image"
-import { ValidationButton } from "@/components/validation-button"
-import {
-    AlertDialog,
-    AlertDialogAction,
-    AlertDialogCancel,
-    AlertDialogContent,
-    AlertDialogDescription,
-    AlertDialogFooter,
-    AlertDialogHeader,
-    AlertDialogTitle,
-    AlertDialogTrigger,
-} from "@/components/ui/alert-dialog"
 import {
     Dialog,
     DialogTrigger,
@@ -21,15 +10,24 @@ import {
     DialogHeader,
     DialogTitle,
 } from "@/components/ui/dialog"
+import { Button } from "@/components/ui/button"
+import { Eye } from "lucide-react"
+import { PoiDetailModal } from "./poi-detail-modal"
+import { approvePoi, rejectPoi } from "@/lib/api"
 
 export type Poi = {
     id: string
     name: string
     address: string
+    type: string
+    floor: string
+    phone: string
     image: string
     status: "pending" | "approved" | "rejected" | "valid" | "invalid"
     latitude: number
     longitude: number
+    createdAt: string
+    updatedAt: string
 }
 
 export const columns: ColumnDef<Poi>[] = [
@@ -87,12 +85,12 @@ export const columns: ColumnDef<Poi>[] = [
             if (status === "pending") {
                 statusClass = "bg-yellow-100 text-yellow-800";
                 statusText = "Pending";
-            } else if (status === "valid") {
+            } else if (status === "approved") {
                 statusClass = "bg-green-100 text-green-800";
-                statusText = "Valid";
-            } else {
+                statusText = "approved";
+            } else if (status === "rejected") {
                 statusClass = "bg-red-100 text-red-800";
-                statusText = "Invalid";
+                statusText = "rejected";
             }
 
             return (
@@ -106,58 +104,50 @@ export const columns: ColumnDef<Poi>[] = [
     },
     {
         id: "actions",
-        header: "Actions",
-        cell: ({ row }) => {
-            const poi = row.original
-
-            const handleValidation = async (type: "valid" | "invalid") => {
-                // Call your API here
-                console.log(`Marked as ${type}:`, poi.id)
-            }
-
-            return (
-                <div className="flex items-center gap-2 justify-center">
-                    <AlertDialog>
-                        <AlertDialogTrigger asChild>
-                            <ValidationButton type="valid" />
-                        </AlertDialogTrigger>
-                        <AlertDialogContent>
-                            <AlertDialogHeader>
-                                <AlertDialogTitle>Confirm Validation</AlertDialogTitle>
-                                <AlertDialogDescription>
-                                    Are you sure you want to mark this POI as valid?
-                                </AlertDialogDescription>
-                            </AlertDialogHeader>
-                            <AlertDialogFooter>
-                                <AlertDialogCancel>Cancel</AlertDialogCancel>
-                                <AlertDialogAction onClick={() => handleValidation("valid")}>
-                                    Yes
-                                </AlertDialogAction>
-                            </AlertDialogFooter>
-                        </AlertDialogContent>
-                    </AlertDialog>
-
-                    <AlertDialog>
-                        <AlertDialogTrigger asChild>
-                            <ValidationButton type="invalid" />
-                        </AlertDialogTrigger>
-                        <AlertDialogContent>
-                            <AlertDialogHeader>
-                                <AlertDialogTitle>Confirm Validation</AlertDialogTitle>
-                                <AlertDialogDescription>
-                                    Are you sure you want to mark this POI as invalid?
-                                </AlertDialogDescription>
-                            </AlertDialogHeader>
-                            <AlertDialogFooter>
-                                <AlertDialogCancel>Cancel</AlertDialogCancel>
-                                <AlertDialogAction onClick={() => handleValidation("invalid")}>
-                                    Yes
-                                </AlertDialogAction>
-                            </AlertDialogFooter>
-                        </AlertDialogContent>
-                    </AlertDialog>
-                </div>
-            )
-        },
+        header: "",
+        cell: ({ row }) => <ViewPoiButton poi={row.original} />,
     },
-] 
+]
+
+
+const ViewPoiButton = ({ poi }: { poi: Poi }) => {
+    const [isModalOpen, setIsModalOpen] = React.useState(false)
+
+    const handleApprove = async (poi: Poi) => {
+        // Simulate API call
+        await new Promise(resolve => setTimeout(resolve, 1000))
+        console.log(`Approved POI:`, poi.id)
+        // Here you would typically update the POI status in your state/database
+        await approvePoi(poi.id)
+    }
+
+    const handleReject = async (poi: Poi) => {
+        // Simulate API call
+        await new Promise(resolve => setTimeout(resolve, 1000))
+        console.log(`Rejected POI:`, poi.id)
+        // Here you would typically update the POI status in your state/database
+        await rejectPoi(poi.id)
+    }
+
+    return (
+        <>
+            <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => setIsModalOpen(true)}
+                className="text-blue-600 hover:text-blue-800 hover:bg-blue-50 font-medium"
+            >
+                <Eye className="h-4 w-4 mr-1" />
+                View
+            </Button>
+
+            <PoiDetailModal
+                poi={poi}
+                isOpen={isModalOpen}
+                onClose={() => setIsModalOpen(false)}
+                onApprove={handleApprove}
+                onReject={handleReject}
+            />
+        </>
+    )
+}
