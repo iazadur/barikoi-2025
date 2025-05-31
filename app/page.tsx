@@ -1,16 +1,11 @@
 // "use client"
 
 import React from "react"
-import { FileUpload } from "@/components/file-upload"
 import { getPois } from "@/lib/api"
 import Dashboard from "@/components/Dashboard"
 
 export default async function Home() {
-  // const [file, setFile] = React.useState<File | null>(null)
 
-  // const handleFileSelect = (selectedFile: File | null) => {
-  //   setFile(selectedFile)
-  // }
   const pois = await getPois()
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const mergedPois = pois.map((poi: any) => ({
@@ -35,12 +30,6 @@ export default async function Home() {
         </div>
       </header>
       <main className="container mx-auto py-6 px-4">
-        {/* <div className="mb-6">
-          <FileUpload
-            accept=".csv,.xlsx"
-          // onFileSelect={handleFileSelect}
-          />
-        </div> */}
         <Dashboard data={mergedPois} />
       </main>
     </div>

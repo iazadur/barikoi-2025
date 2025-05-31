@@ -128,9 +128,9 @@ export function FileUploadModal() {
             })
 
             // Call success callback if provided
-            if (onUploadSuccess) {
-                onUploadSuccess(data)
-            }
+            // if (onUploadSuccess) {
+            //     onUploadSuccess(data)
+            // }
 
             // Reset form and close modal
             setFormData({

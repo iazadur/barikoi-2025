@@ -29,7 +29,7 @@ const Dashboard = ({ data }: DashboardProps) => {
             <FileUploadModal />
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 pt-4">
                 <div className="h-[600px] rounded-md border relative">
-                    <MapView className="h-full" pois={data} selectedPoi={selectedPoi} />
+                    <MapView className="h-full" samplePois={data} selectedPoi={selectedPoi} />
 
                     {/* Selected POI Info Overlay */}
                     {selectedPoi && (
